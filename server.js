@@ -56,6 +56,12 @@ function filterByQuery(query, animalsArray) {
   return filteredResults;
 }
 
+//takes in the id and array of animals and return a single animal object
+function findById(id, animalsArray) {
+  const result = animalsArray.filter((animal) => animal.id === id)[0];
+  return result;
+}
+
 //adding route for animals, get() method requires 2 arguments, string that describes the route the client will fetch, and the second ais the call back.
 app.get("/api/animals", (req, res) => {
   let results = animals;
@@ -69,6 +75,15 @@ app.get("/api/animals", (req, res) => {
   res.json(results);
 });
 
+//sending 404 error is issue
+app.get("/api/animals/:id", (req, res) => {
+  const result = findById(req.params.id, animals);
+  if (result) {
+    res.json(result);
+  } else {
+    res.send(404);
+  }
+});
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
