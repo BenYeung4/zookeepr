@@ -3,6 +3,10 @@ const express = require("express");
 
 //route to the front-end can request data from
 const { animals } = require("./data/animals");
+
+//for Heroku
+const PORT = process.env.PORT || 3001;
+
 //instantiate the server " make it listen"
 const app = express();
 
@@ -66,6 +70,6 @@ app.get("/api/animals", (req, res) => {
 });
 
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
-app.listen(3001, () => {
-  console.log(`API server now on port 3001!`);
+app.listen(PORT, () => {
+  console.log(`API server now on port ${PORT}!`);
 });
