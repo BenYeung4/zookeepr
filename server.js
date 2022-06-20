@@ -83,6 +83,22 @@ function createNewAnimal(body, animalsArray) {
   return animal;
 }
 
+function validatedAnimal(animal) {
+  if (!animal.name || typeof animal.name !== "string") {
+    return false;
+  }
+  if (!animal.species || typeof animal.species !== "string") {
+    return false;
+  }
+  if (!animal.diet || typeof animal.diet !== "string") {
+    return false;
+  }
+  if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
+    return false;
+  }
+  return true;
+}
+
 //adding route for animals, get() method requires 2 arguments, string that describes the route the client will fetch, and the second ais the call back.
 app.get("/api/animals", (req, res) => {
   let results = animals;
@@ -121,22 +137,6 @@ app.post("/api/animals", (req, res) => {
     res.json(animal);
   }
 });
-
-function validatedAnimal(animal) {
-  if (!animal.name || typeof animal.name !== "string") {
-    return false;
-  }
-  if (!animal.species || typeof animal.species !== "string") {
-    return false;
-  }
-  if (!animal.diet || typeof animal.diet !== "string") {
-    return false;
-  }
-  if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
-    return false;
-  }
-  return true;
-}
 
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
 app.listen(PORT, () => {
