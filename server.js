@@ -11,8 +11,12 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 const fs = require("fs");
-//library that works with file and directory paths
+
+//library that works with file and directory paths **really important towards the end, to show the whole layout**
 const path = require("path");
+
+//pushes the css and javascript code to the server
+app.use(express.static("public"));
 
 //parse incoming string or array data this and the other use with express.json is what will display on insomnia
 app.use(express.urlencoded({ extended: true }));
@@ -136,6 +140,26 @@ app.post("/api/animals", (req, res) => {
 
     res.json(animal);
   }
+});
+
+//links the zookeepers server
+app.get("/zookeepers", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/zookeepers.html"));
+});
+
+//links the animals server
+app.get("/animals", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/animals.html"));
+});
+
+//pushes the server to the index.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
+//wild card,***ALWAYS COMES LAST*** when there is no server to connect to * will act as if any route that was not defined will fall under this request and move to homepage
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things

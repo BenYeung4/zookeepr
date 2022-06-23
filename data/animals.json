@@ -216,6 +216,24 @@
         "hungry"
       ],
       "id": "22"
+    },
+    {
+      "name": "Larry",
+      "species": "lemur",
+      "diet": "omnivore",
+      "personalityTraits": [
+        "hungry"
+      ],
+      "id": "23"
+    },
+    {
+      "name": "dfad",
+      "species": "fds",
+      "diet": "herbivore",
+      "personalityTraits": [
+        "hungry"
+      ],
+      "id": "24"
     }
   ]
 }
