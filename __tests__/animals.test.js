@@ -1,3 +1,6 @@
+//lets the system know that this is just a mock and should not add anything to our file
+jest.mock("fs");
+
 const fs = require("fs");
 const {
   filterByQuery,
