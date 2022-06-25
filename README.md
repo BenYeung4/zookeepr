@@ -27,6 +27,7 @@ Below are the instructions and examples for use:
 to run the server, do npm start server
 
 Screenshot located at:
+<img width="960" alt="100-final-app" src="https://user-images.githubusercontent.com/52897163/175755742-9d0664e9-be1d-4b10-922a-e35b626b7804.png">
 
 ## Contributors:
 
