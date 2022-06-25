@@ -141,9 +141,14 @@ function validatedAnimal(animal) {
   return true;
 }
 
-//always at the end, lets us push and link to the other html or js we need, in this case, the index
+//always at the end, lets us push and link to the other html and what we want the public to see, will need app.use(express.static("public"));, in the top to load the corresponding page and sources propertly
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
+//this route will take us to the animals folder
+app.get("/animals", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/animals.html"));
 });
 
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
