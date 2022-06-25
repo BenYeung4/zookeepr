@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 //parse incoming JSON data. this used with the above urlencoded to display on insomnia
 app.use(express.json());
 
+//looks for servers inside the "public" folder
+app.use(express.static("public"));
+
 //function will take in re.query as an argument and filter through animals accordingly, returning new filter array
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
@@ -137,6 +140,11 @@ function validatedAnimal(animal) {
   }
   return true;
 }
+
+//always at the end, lets us push and link to the other html or js we need, in this case, the index
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
 
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
 app.listen(PORT, () => {
