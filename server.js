@@ -151,6 +151,16 @@ app.get("/animals", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/animals.html"));
 });
 
+//route will take us to the zookeepers folder
+app.get("/zookeepers", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/zookeepers.html"));
+});
+
+//this route is the wild card route, that serves when user enters a /asd;fkljadfkl whatever it is and there is no page for it, practially sends the user back to th main page
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
