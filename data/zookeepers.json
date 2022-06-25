@@ -71,6 +71,12 @@
       "age": 18,
       "favoriteAnimal": "Monkey",
       "id": "11"
+    },
+    {
+      "name": "Ben",
+      "age": 33,
+      "favoriteAnimal": "Chicken",
+      "id": "12"
     }
   ]
 }
