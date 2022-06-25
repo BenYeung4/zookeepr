@@ -1,3 +1,7 @@
+//all the commented code at the bottom has been pushed to these two files
+const apiRoutes = require("./routes/apiRoutes");
+const htmlRoutes = require("./routes/htmlRoutes");
+
 //the npm init express
 const express = require("express");
 
@@ -22,144 +26,148 @@ app.use(express.json());
 //looks for servers inside the "public" folder
 app.use(express.static("public"));
 
-//function will take in re.query as an argument and filter through animals accordingly, returning new filter array
-function filterByQuery(query, animalsArray) {
-  let personalityTraitsArray = [];
-  // Note that we save the animalsArray as filteredResults here:
-  let filteredResults = animalsArray;
-  if (query.personalityTraits) {
-    // Save personalityTraits as a dedicated array.
-    // If personalityTraits is a string, place it into a new array and save.
-    if (typeof query.personalityTraits === "string") {
-      personalityTraitsArray = [query.personalityTraits];
-    } else {
-      personalityTraitsArray = query.personalityTraits;
-    }
-    // Loop through each trait in the personalityTraits array:
-    personalityTraitsArray.forEach((trait) => {
-      // Check the trait against each animal in the filteredResults array.
-      // Remember, it is initially a copy of the animalsArray,
-      // but here we're updating it for each trait in the .forEach() loop.
-      // For each trait being targeted by the filter, the filteredResults
-      // array will then contain only the entries that contain the trait,
-      // so at the end we'll have an array of animals that have every one
-      // of the traits when the .forEach() loop is finished.
-      filteredResults = filteredResults.filter(
-        (animal) => animal.personalityTraits.indexOf(trait) !== -1
-      );
-    });
-  }
-  if (query.diet) {
-    filteredResults = filteredResults.filter(
-      (animal) => animal.diet === query.diet
-    );
-  }
-  if (query.species) {
-    filteredResults = filteredResults.filter(
-      (animal) => animal.species === query.species
-    );
-  }
-  if (query.name) {
-    filteredResults = filteredResults.filter(
-      (animal) => animal.name === query.name
-    );
-  }
-  // return the filtered results:
-  return filteredResults;
-}
+//this is telling the server taht anytime a clien navitages to (ourhost)/api, the app will use the router we set up in apiRoutes.
+app.use("/api", apiRoutes);
+app.use("/", htmlRoutes);
 
-//takes in the id and array of animals and return a single animal object
-function findById(id, animalsArray) {
-  const result = animalsArray.filter((animal) => animal.id === id)[0];
-  return result;
-}
+// //function will take in re.query as an argument and filter through animals accordingly, returning new filter array
+// function filterByQuery(query, animalsArray) {
+//   let personalityTraitsArray = [];
+//   // Note that we save the animalsArray as filteredResults here:
+//   let filteredResults = animalsArray;
+//   if (query.personalityTraits) {
+//     // Save personalityTraits as a dedicated array.
+//     // If personalityTraits is a string, place it into a new array and save.
+//     if (typeof query.personalityTraits === "string") {
+//       personalityTraitsArray = [query.personalityTraits];
+//     } else {
+//       personalityTraitsArray = query.personalityTraits;
+//     }
+//     // Loop through each trait in the personalityTraits array:
+//     personalityTraitsArray.forEach((trait) => {
+//       // Check the trait against each animal in the filteredResults array.
+//       // Remember, it is initially a copy of the animalsArray,
+//       // but here we're updating it for each trait in the .forEach() loop.
+//       // For each trait being targeted by the filter, the filteredResults
+//       // array will then contain only the entries that contain the trait,
+//       // so at the end we'll have an array of animals that have every one
+//       // of the traits when the .forEach() loop is finished.
+//       filteredResults = filteredResults.filter(
+//         (animal) => animal.personalityTraits.indexOf(trait) !== -1
+//       );
+//     });
+//   }
+//   if (query.diet) {
+//     filteredResults = filteredResults.filter(
+//       (animal) => animal.diet === query.diet
+//     );
+//   }
+//   if (query.species) {
+//     filteredResults = filteredResults.filter(
+//       (animal) => animal.species === query.species
+//     );
+//   }
+//   if (query.name) {
+//     filteredResults = filteredResults.filter(
+//       (animal) => animal.name === query.name
+//     );
+//   }
+//   // return the filtered results:
+//   return filteredResults;
+// }
 
-//accepts the post route's value, retrieves information from entry and then repost it
-//using fs.writefilesync funciton method to synchronous version of fs.writefile and doesnt requrie callback, we want our animals.json file in the data subdirectory, so usting method path.jooin() to join value of __direname"which represents tthe directory of the file we excuted the code in with the animals.json path.  need too save JAVASCRIPT array data as JSON, so we stringify it.  null means we dont want to edite any of our existing data, if we did, we could pass somethgin in there.  2 dinicates we want to create white space betwen our values to make it more readable.
-function createNewAnimal(body, animalsArray) {
-  const animal = body;
-  animalsArray.push(animal);
-  fs.writeFileSync(
-    path.join(__dirname, "./data/animals.json"),
-    JSON.stringify({ animals: animalsArray }, null, 2)
-  );
-  return animal;
-}
+// //takes in the id and array of animals and return a single animal object
+// function findById(id, animalsArray) {
+//   const result = animalsArray.filter((animal) => animal.id === id)[0];
+//   return result;
+// }
 
-//adding route for animals, get() method requires 2 arguments, string that describes the route the client will fetch, and the second ais the call back.
-app.get("/api/animals", (req, res) => {
-  let results = animals;
-  if (req.query) {
-    results = filterByQuery(req.query, results);
-  }
+// //accepts the post route's value, retrieves information from entry and then repost it
+// //using fs.writefilesync funciton method to synchronous version of fs.writefile and doesnt requrie callback, we want our animals.json file in the data subdirectory, so usting method path.jooin() to join value of __direname"which represents tthe directory of the file we excuted the code in with the animals.json path.  need too save JAVASCRIPT array data as JSON, so we stringify it.  null means we dont want to edite any of our existing data, if we did, we could pass somethgin in there.  2 dinicates we want to create white space betwen our values to make it more readable.
+// function createNewAnimal(body, animalsArray) {
+//   const animal = body;
+//   animalsArray.push(animal);
+//   fs.writeFileSync(
+//     path.join(__dirname, "./data/animals.json"),
+//     JSON.stringify({ animals: animalsArray }, null, 2)
+//   );
+//   return animal;
+// }
 
-  //console.log(req.query);
-  //the send() pushes the message to the server, while the .json shoots out what data we have on the api with the use of .json
-  //res.send('hello);
-  res.json(results);
-});
+// //adding route for animals, get() method requires 2 arguments, string that describes the route the client will fetch, and the second ais the call back.
+// app.get("/api/animals", (req, res) => {
+//   let results = animals;
+//   if (req.query) {
+//     results = filterByQuery(req.query, results);
+//   }
 
-//sending 404 error is issue
-app.get("/api/animals/:id", (req, res) => {
-  const result = findById(req.params.id, animals);
-  if (result) {
-    res.json(result);
-  } else {
-    res.send(404);
-  }
-});
+//   //console.log(req.query);
+//   //the send() pushes the message to the server, while the .json shoots out what data we have on the api with the use of .json
+//   //res.send('hello);
+//   res.json(results);
+// });
 
-app.post("/api/animals", (req, res) => {
-  //req.body is where our incoming content will be
-  //set id based on what the next index of the array will e, sends out the number on the ID
-  req.body.id = animals.length.toString();
+// //sending 404 error is issue
+// app.get("/api/animals/:id", (req, res) => {
+//   const result = findById(req.params.id, animals);
+//   if (result) {
+//     res.json(result);
+//   } else {
+//     res.send(404);
+//   }
+// });
 
-  //if any data in req.body is incorrect, send 400 error back
-  if (!validatedAnimal(req.body)) {
-    res.status(400).send("The animal is not properly formated.");
-  } else {
-    //add animal to json file and animals array in this function
-    const animal = createNewAnimal(req.body, animals);
+// app.post("/api/animals", (req, res) => {
+//   //req.body is where our incoming content will be
+//   //set id based on what the next index of the array will e, sends out the number on the ID
+//   req.body.id = animals.length.toString();
 
-    res.json(animal);
-  }
-});
+//   //if any data in req.body is incorrect, send 400 error back
+//   if (!validatedAnimal(req.body)) {
+//     res.status(400).send("The animal is not properly formated.");
+//   } else {
+//     //add animal to json file and animals array in this function
+//     const animal = createNewAnimal(req.body, animals);
 
-function validatedAnimal(animal) {
-  if (!animal.name || typeof animal.name !== "string") {
-    return false;
-  }
-  if (!animal.species || typeof animal.species !== "string") {
-    return false;
-  }
-  if (!animal.diet || typeof animal.diet !== "string") {
-    return false;
-  }
-  if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
-    return false;
-  }
-  return true;
-}
+//     res.json(animal);
+//   }
+// });
 
-//always at the end, lets us push and link to the other html and what we want the public to see, will need app.use(express.static("public"));, in the top to load the corresponding page and sources propertly
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
+// function validatedAnimal(animal) {
+//   if (!animal.name || typeof animal.name !== "string") {
+//     return false;
+//   }
+//   if (!animal.species || typeof animal.species !== "string") {
+//     return false;
+//   }
+//   if (!animal.diet || typeof animal.diet !== "string") {
+//     return false;
+//   }
+//   if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
+//     return false;
+//   }
+//   return true;
+// }
 
-//this route will take us to the animals folder
-app.get("/animals", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/animals.html"));
-});
+// //always at the end, lets us push and link to the other html and what we want the public to see, will need app.use(express.static("public"));, in the top to load the corresponding page and sources propertly
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./public/index.html"));
+// });
 
-//route will take us to the zookeepers folder
-app.get("/zookeepers", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/zookeepers.html"));
-});
+// //this route will take us to the animals folder
+// app.get("/animals", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./public/animals.html"));
+// });
 
-//this route is the wild card route, that serves when user enters a /asd;fkljadfkl whatever it is and there is no page for it, practially sends the user back to th main page
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
+// //route will take us to the zookeepers folder
+// app.get("/zookeepers", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./public/zookeepers.html"));
+// });
+
+// //this route is the wild card route, that serves when user enters a /asd;fkljadfkl whatever it is and there is no page for it, practially sends the user back to th main page
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./public/index.html"));
+// });
 
 //chaining listen method to server and port, for example 82.458.45863.5633 that whole things
 app.listen(PORT, () => {
